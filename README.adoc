@@ -1777,3 +1777,5 @@ A---B---C (master)
 ----
 
 == Interactive staging: `git add -p`
+
+Splitting changes/diff to one file to separate batches - picking changes done to a file for current commit
