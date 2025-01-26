@@ -1,3 +1,4 @@
 Line 1
 Line 2 modified in main
+Line 2 modified in feature
 Line 3
