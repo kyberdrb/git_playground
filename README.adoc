@@ -1,4 +1,743 @@
 = GIT PLAYGROUND
 
-Lessen you noobines in `git` you must!
+Lessen your noobines in `git` you must!
+
+== `git cherrypick` without conflict
+
+just adding a file
+
+[source,shell]
+----
+cd 
+
+░▒▓   ~   v23.4.0  
+$ cd git/kyberdrb/
+
+░▒▓   ~/git/kyberdrb  
+$ git clone git@github.com:kyberdrb/git_playground.git
+Cloning into 'git_playground'...
+warning: You appear to have cloned an empty repository.             
+
+░▒▓   ~/git/kyberdrb  
+$ cd git_playground/
+
+░▒▓   …/git_playground   main  
+$ git branch
+
+░▒▓   …/git_playground   main  
+$ git branch --help
+
+░▒▓   …/git_playground   main  
+$ vim README.adoc
+
+░▒▓   …/git_playground   main ?  
+$ git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	README.adoc
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+░▒▓   …/git_playground   main ?  
+$ git add -p
+No changes.
+
+░▒▓   …/git_playground   main ?  
+$ git add -p README.adoc 
+No changes.
+
+░▒▓   …/git_playground   main ?  
+$ git add --help
+
+░▒▓   …/git_playground   main ?  
+$ git status
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	README.adoc
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+░▒▓   …/git_playground   main ?  
+$ git branch
+
+░▒▓   …/git_playground   main ?  
+$ git add --all 
+
+░▒▓   …/git_playground   main +  
+$ git status
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   README.adoc
+
+
+░▒▓   …/git_playground   main +  
+$ git commit -m "Add README.md"
+[main (root-commit) 3ce77df] Add README.md
+ 1 file changed, 4 insertions(+)
+ create mode 100644 README.adoc
+
+░▒▓   …/git_playground   main  
+$ git push
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 273 bytes | 273.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To github.com:kyberdrb/git_playground.git
+ * [new branch]      main -> main
+
+░▒▓   …/git_playground   main  
+$ git branch
+* main
+
+░▒▓   …/git_playground   main  
+$ echo "Initial content" > main.txt
+
+░▒▓   …/git_playground   main ?  
+$ gitsh
+bash: gitsh: command not found
+
+░▒▓   …/git_playground   main ?  
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	main.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+░▒▓   …/git_playground   main ?  
+$ git add main.txt
+
+░▒▓   …/git_playground   main +  
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   main.txt
+
+
+░▒▓   …/git_playground   main +  
+$ git commit -m "cherrypick-practice: commit main.txt to main branch"
+[main d278599] cherrypick-practice: commit main.txt to main branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 main.txt
+
+░▒▓   …/git_playground   main ⇡  
+$ git checkout -b cherrypick-practice-feature
+Switched to a new branch 'cherrypick-practice-feature'
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ echo "Feature 1" > feature1.txt
+
+░▒▓   …/git_playground   cherrypick-practice-feature ?  
+$ git add feature1.txt
+
+░▒▓   …/git_playground   cherrypick-practice-feature +  
+$ git commit -m "cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch"
+[cherrypick-practice-feature 424f7a6] cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 feature1.txt
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ git status
+On branch cherrypick-practice-feature
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ echo "Feature 2" > feature2.txt
+git add feature2.txt
+
+░▒▓   …/git_playground   cherrypick-practice-feature +  
+$ git status
+On branch cherrypick-practice-feature
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   feature2.txt
+
+
+░▒▓   …/git_playground   cherrypick-practice-feature +  
+$ git commit -m "cherrypick-practice: commit feature2.txt to cherrypick-practice-feature branch"
+[cherrypick-practice-feature fef9db6] cherrypick-practice: commit feature2.txt to cherrypick-practice-feature branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 feature2.txt
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ git log
+commit fef9db6eaa25b04f74bb7b92b0da9123341f6964 (HEAD -> cherrypick-practice-feature)
+Author: kyberdrb <kyberdrb@gmail.com>
+Date:   Sun Jan 26 19:01:27 2025 +0100
+
+    cherrypick-practice: commit feature2.txt to cherrypick-practice-feature branch
+
+commit 424f7a68f5d0b5883945c909c6156eaa3280f7b1
+Author: kyberdrb <kyberdrb@gmail.com>
+Date:   Sun Jan 26 19:00:54 2025 +0100
+
+    cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+
+commit d2785990729f7e64ca73c5b92cefeec34d755400 (main)
+Author: kyberdrb <kyberdrb@gmail.com>
+Date:   Sun Jan 26 18:59:57 2025 +0100
+
+    cherrypick-practice: commit main.txt to main branch
+
+commit 3ce77df43c2cff9d2ff35664d680a6fa3a95eff1 (origin/main)
+Author: kyberdrb <kyberdrb@gmail.com>
+Date:   Sun Jan 26 18:57:44 2025 +0100
+
+    Add README.md
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ git push
+fatal: The current branch cherrypick-practice-feature has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin cherrypick-practice-feature
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ git push --set-upstream origin cherrypick-practice-feature
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (9/9), 808 bytes | 808.00 KiB/s, done.
+Total 9 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), done.
+remote: 
+remote: Create a pull request for 'cherrypick-practice-feature' on GitHub by visiting:
+remote:      https://github.com/kyberdrb/git_playground/pull/new/cherrypick-practice-feature
+remote: 
+To github.com:kyberdrb/git_playground.git
+ * [new branch]      cherrypick-practice-feature -> cherrypick-practice-feature
+branch 'cherrypick-practice-feature' set up to track 'origin/cherrypick-practice-feature'.
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ git switch main
+Switched to branch 'main'
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+░▒▓   …/git_playground   main ⇡  
+$ git push
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To github.com:kyberdrb/git_playground.git
+   3ce77df..d278599  main -> main
+
+░▒▓   …/git_playground   main  
+$ git log --oneline 
+d278599 (HEAD -> main, origin/main) cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main  
+$ #  Now let's say you want to bring just the "Feature 1" commit to main: 
+
+░▒▓   …/git_playground   main  
+$ git log --oneline
+d278599 (HEAD -> main, origin/main) cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main  
+$ git switch cherrypick-practice-feature 
+Switched to branch 'cherrypick-practice-feature'
+Your branch is up to date with 'origin/cherrypick-practice-feature'.
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ git log --oneline 
+fef9db6 (HEAD -> cherrypick-practice-feature, origin/cherrypick-practice-feature) cherrypick-practice: commit feature2.txt to cherrypick-practice-feature branch
+424f7a6 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 (origin/main, main) cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ # 424f7a6 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+
+░▒▓   …/git_playground   cherrypick-practice-feature  
+$ git switch main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+░▒▓   …/git_playground   main  
+$ git cherry-pick 424f7a6
+[main 42a5ce7] cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+ Date: Sun Jan 26 19:00:54 2025 +0100
+ 1 file changed, 1 insertion(+)
+ create mode 100644 feature1.txt
+
+░▒▓   …/git_playground   main ⇡  
+$ git status
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   main ⇡  
+$ ls
+feature1.txt  main.txt  README.adoc
+
+░▒▓   …/git_playground   main ⇡  
+$ git log --oneline 
+42a5ce7 (HEAD -> main) cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 (origin/main) cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main ⇡  
+$ git reset HEAD~
+
+░▒▓   …/git_playground   main ?  
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	feature1.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+░▒▓   …/git_playground   main ?  
+$ ls
+feature1.txt  main.txt  README.adoc
+
+░▒▓   …/git_playground   main ?  
+$ git reset HEAD~1
+
+░▒▓   …/git_playground   main ?⇣  
+$ ls
+feature1.txt  main.txt  README.adoc
+
+░▒▓   …/git_playground   main ?⇣  
+$ git status
+On branch main
+Your branch is behind 'origin/main' by 1 commit, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	feature1.txt
+	main.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+░▒▓   …/git_playground   main ?⇣  
+$ git log
+commit 3ce77df43c2cff9d2ff35664d680a6fa3a95eff1 (HEAD -> main)
+Author: kyberdrb <kyberdrb@gmail.com>
+Date:   Sun Jan 26 18:57:44 2025 +0100
+
+    Add README.md
+
+░▒▓   …/git_playground   main ?⇣  
+$ git checkout origin main
+error: pathspec 'origin' did not match any file(s) known to git
+error: pathspec 'main' did not match any file(s) known to git
+
+░▒▓   …/git_playground   main ?⇣  
+$ git reflog
+3ce77df (HEAD -> main) HEAD@{0}: reset: moving to HEAD~1
+d278599 (origin/main) HEAD@{1}: reset: moving to HEAD~
+42a5ce7 HEAD@{2}: cherry-pick: cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 (origin/main) HEAD@{3}: checkout: moving from cherrypick-practice-feature to main
+fef9db6 (origin/cherrypick-practice-feature, cherrypick-practice-feature) HEAD@{4}: checkout: moving from main to cherrypick-practice-feature
+d278599 (origin/main) HEAD@{5}: checkout: moving from cherrypick-practice-feature to main
+fef9db6 (origin/cherrypick-practice-feature, cherrypick-practice-feature) HEAD@{6}: commit: cherrypick-practice: commit feature2.txt to cherrypick-practice-feature branch
+424f7a6 HEAD@{7}: commit: cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 (origin/main) HEAD@{8}: checkout: moving from main to cherrypick-practice-feature
+d278599 (origin/main) HEAD@{9}: commit: cherrypick-practice: commit main.txt to main branch
+3ce77df (HEAD -> main) HEAD@{10}: commit (initial): Add README.md
+
+░▒▓   …/git_playground   main ?⇣  
+$ git reset 42a5ce7
+
+░▒▓   …/git_playground   main ⇡  
+$ git status
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   main ⇡  
+$ s
+bash: s: command not found
+
+░▒▓   …/git_playground   main ⇡  
+$ ls
+feature1.txt  main.txt  README.adoc
+
+░▒▓   …/git_playground   main ⇡  
+$ git log --oneline 
+42a5ce7 (HEAD -> main) cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 (origin/main) cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main ⇡  
+$ git log --oneline cherrypick-practice-feature 
+fef9db6 (origin/cherrypick-practice-feature, cherrypick-practice-feature) cherrypick-practice: commit feature2.txt to cherrypick-practice-feature branch
+424f7a6 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 (origin/main) cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main ⇡  
+$ git status
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   main ⇡  
+$ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 351 bytes | 351.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To github.com:kyberdrb/git_playground.git
+   d278599..42a5ce7  main -> main
+----
+
+
+== `git cherrypick` with conflict
+
+modifying the same file in the same line in two separate branches
+
+[source, shell]
+----
+░▒▓   …/git_playground   main  
+❯ git branch
+  cherrypick-practice-feature
+* main
+
+░▒▓   …/git_playground   main  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   main  
+❯ git log --oneline 
+42a5ce7 (HEAD -> main, origin/main) cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main  
+❯ ^C
+
+░▒▓   …/git_playground   main  
+❯ #git checkout -b cherrypick-conflict-feature
+
+░▒▓   …/git_playground   main  
+❯ echo "Line 1\nLine 2\nLine 3" > cherrypick_conflict_file.txt
+
+░▒▓   …/git_playground   main ?  
+❯ cat cherrypick_conflict_file.txt 
+Line 1\nLine 2\nLine 3
+
+░▒▓   …/git_playground   main ?  
+❯ printf "Line 1\nLine 2\nLine 3" > cherrypick_conflict_file.txt
+
+░▒▓   …/git_playground   main ?  
+❯ cat cherrypick_conflict_file.txt 
+Line 1
+Line 2
+Line 3
+░▒▓   …/git_playground   main ?  
+❯ git add cherrypick_conflict_file.txt 
+
+░▒▓   …/git_playground   main +  
+❯ git commit -m "cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch"
+[main 35b3290] cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+ 1 file changed, 3 insertions(+)
+ create mode 100644 cherrypick_conflict_file.txt
+
+░▒▓   …/git_playground   main ⇡  
+❯ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 400 bytes | 400.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To github.com:kyberdrb/git_playground.git
+   42a5ce7..35b3290  main -> main
+
+░▒▓   …/git_playground   main  
+❯ git checkout -b cherrypick-conflict-feature
+Switched to a new branch 'cherrypick-conflict-feature'
+
+░▒▓   …/git_playground   cherrypick-conflict-feature  
+❯ printf "Line 1\nLine 2 modified in feature\nLine 3" > cherrypick_conflict_file.txt 
+
+░▒▓   …/git_playground   cherrypick-conflict-feature !  
+❯ cat cherrypick_conflict_file.txt 
+Line 1
+Line 2 modified in feature
+Line 3
+░▒▓   …/git_playground   cherrypick-conflict-feature !  
+❯ git commit -am "cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on cherrypick-conflict-feature branch"
+[cherrypick-conflict-feature e5836bb] cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on cherrypick-conflict-feature branch
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+░▒▓   …/git_playground   cherrypick-conflict-feature  
+❯ git status
+On branch cherrypick-conflict-feature
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   cherrypick-conflict-feature  
+❯ git push
+fatal: The current branch cherrypick-conflict-feature has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin cherrypick-conflict-feature
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+
+
+░▒▓   …/git_playground   cherrypick-conflict-feature  
+❯ git push --set-upstream origin cherrypick-conflict-feature
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 337 bytes | 337.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote: 
+remote: Create a pull request for 'cherrypick-conflict-feature' on GitHub by visiting:
+remote:      https://github.com/kyberdrb/git_playground/pull/new/cherrypick-conflict-feature
+remote: 
+To github.com:kyberdrb/git_playground.git
+ * [new branch]      cherrypick-conflict-feature -> cherrypick-conflict-feature
+branch 'cherrypick-conflict-feature' set up to track 'origin/cherrypick-conflict-feature'.
+
+░▒▓   …/git_playground   cherrypick-conflict-feature  
+❯ ls
+cherrypick_conflict_file.txt  feature1.txt  main.txt  README.adoc
+
+░▒▓   …/git_playground   cherrypick-conflict-feature  
+❯ git switch main 
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+░▒▓   …/git_playground   main  
+❯ cat cherrypick_conflict_file.txt 
+Line 1
+Line 2
+Line 3
+░▒▓   …/git_playground   main  
+❯ printf "Line 1\nLine 2 modified in main\nLine 3" > cherrypick_conflict_file.txt 
+
+░▒▓   …/git_playground   main !  
+❯ cat cherrypick_conflict_file.txt 
+Line 1
+Line 2 modified in main
+Line 3
+░▒▓   …/git_playground   main !  
+❯ git commit -am "cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch"
+[main c1aeef9] cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+░▒▓   …/git_playground   main ⇡  
+❯ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 324 bytes | 324.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+   35b3290..c1aeef9  main -> main
+
+░▒▓   …/git_playground   main  
+❯ git log cherrypick-conflict-feature --oneline
+e5836bb (origin/cherrypick-conflict-feature, cherrypick-conflict-feature) cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on cherrypick-conflict-feature branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main  
+❯ # e5836bb (origin/cherrypick-conflict-feature, cherrypick-conflict-feature) cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on cherrypick-conflict-feature branch
+
+░▒▓   …/git_playground   main  
+❯ git che
+checkout      cherry        cherry-pick   
+
+░▒▓   …/git_playground   main  
+❯ git cherry
+cherry        cherry-pick   
+
+░▒▓   …/git_playground   main  
+❯ git cherry-pick e5836bb
+Auto-merging cherrypick_conflict_file.txt
+CONFLICT (content): Merge conflict in cherrypick_conflict_file.txt
+error: could not apply e5836bb... cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on cherrypick-conflict-feature branch
+hint: After resolving the conflicts, mark them with
+hint: "git add/rm <pathspec>", then run
+hint: "git cherry-pick --continue".
+hint: You can instead skip this commit with "git cherry-pick --skip".
+hint: To abort and get back to the state before "git cherry-pick",
+hint: run "git cherry-pick --abort".
+hint: Disable this message with "git config advice.mergeConflict false"
+
+░▒▓   …/git_playground   main =  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+You are currently cherry-picking commit e5836bb.
+  (fix conflicts and run "git cherry-pick --continue")
+  (use "git cherry-pick --skip" to skip this patch)
+  (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   cherrypick_conflict_file.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+░▒▓   …/git_playground   main =  
+❯ git diff
+diff --cc cherrypick_conflict_file.txt
+index 7bb9aa0,31c921f..0000000
+--- a/cherrypick_conflict_file.txt
++++ b/cherrypick_conflict_file.txt
+@@@ -1,3 -1,3 +1,7 @@@
+  Line 1
+++<<<<<<< HEAD
+ +Line 2 modified in main
+++=======
++ Line 2 modified in feature
+++>>>>>>> e5836bb (cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on cherrypick-conflict-feature branch)
+  Line 3
+
+░▒▓   …/git_playground   main =  
+❯ code cherrypick_conflict_file.txt 
+
+░▒▓   …/git_playground   main =  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+You are currently cherry-picking commit e5836bb.
+  (fix conflicts and run "git cherry-pick --continue")
+  (use "git cherry-pick --skip" to skip this patch)
+  (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   cherrypick_conflict_file.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+░▒▓   …/git_playground   main =  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+You are currently cherry-picking commit e5836bb.
+  (fix conflicts and run "git cherry-pick --continue")
+  (use "git cherry-pick --skip" to skip this patch)
+  (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   cherrypick_conflict_file.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+░▒▓   …/git_playground   main =  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+You are currently cherry-picking commit e5836bb.
+  (fix conflicts and run "git cherry-pick --continue")
+  (use "git cherry-pick --skip" to skip this patch)
+  (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+	both modified:   cherrypick_conflict_file.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+░▒▓   …/git_playground   main =  
+❯ git diff
+diff --cc cherrypick_conflict_file.txt
+index 7bb9aa0,31c921f..0000000
+--- a/cherrypick_conflict_file.txt
++++ b/cherrypick_conflict_file.txt
+@@@ -1,3 -1,3 +1,4 @@@
+  Line 1
+ +Line 2 modified in main
++ Line 2 modified in feature
+  Line 3
+
+░▒▓   …/git_playground   main =  
+❯ git add cherrypick_conflict_file.txt 
+
+░▒▓   …/git_playground   main +  
+❯ git push
+Everything up-to-date
+
+░▒▓   …/git_playground   main +  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+You are currently cherry-picking commit e5836bb.
+  (all conflicts fixed: run "git cherry-pick --continue")
+  (use "git cherry-pick --skip" to skip this patch)
+  (use "git cherry-pick --abort" to cancel the cherry-pick operation)
+
+Changes to be committed:
+	modified:   cherrypick_conflict_file.txt
+
+
+░▒▓   …/git_playground   main +  
+❯ git commit -m "cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch"
+[main 7924f52] cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+ Date: Sun Jan 26 19:21:21 2025 +0100
+ 1 file changed, 1 insertion(+)
+
+░▒▓   …/git_playground   main ⇡  
+❯ git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 369 bytes | 369.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+   c1aeef9..7924f52  main -> main
+----
 
