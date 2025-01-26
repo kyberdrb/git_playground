@@ -1775,3 +1775,5 @@ A---B---C (master)
          \
           D'---E' (feature)
 ----
+
+== Interactive staging: `git add -p`
