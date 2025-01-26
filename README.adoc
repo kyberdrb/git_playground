@@ -997,7 +997,7 @@ A---B---C (master)
       D---E---M (feature)
 ----
 
-== `git rebase
+== `git rebase`
 
 Initial state
 
