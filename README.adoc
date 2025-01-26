@@ -741,3 +741,1037 @@ To github.com:kyberdrb/git_playground.git
    c1aeef9..7924f52  main -> main
 ----
 
+== `git merge`
+
+Initial state
+
+[source]
+----
+A---B---C (master)
+     \
+      D---E (feature)
+----
+
+[source, shell]
+----
+░▒▓   …/git_playground   main  
+❯ echo 'File A - merge' > merge-file_A.txt
+
+░▒▓   …/git_playground   main ?  
+❯ git add merge-file_A.txt 
+
+░▒▓   …/git_playground   main +  
+❯ git commit -m "merge: Add merge-fileA.txt to main"
+[main a9fa852] merge: Add merge-fileA.txt to main
+ 1 file changed, 1 insertion(+)
+ create mode 100644 merge-file_A.txt
+
+░▒▓   …/git_playground   main ⇡  
+❯ echo 'File B - merge' > merge-file_B.txt
+
+░▒▓   …/git_playground   main ?⇡  
+❯ git add merge-file_B.txt 
+
+░▒▓   …/git_playground   main +⇡  
+❯ ls
+cherrypick_conflict_file.txt  main.txt          merge-file_B.txt
+feature1.txt                  merge-file_A.txt  README.adoc
+
+░▒▓   …/git_playground   main +⇡  
+❯ git commit -m "merge: Add merge-file_B.txt to main"
+[main b8625d9] merge: Add merge-file_B.txt to main
+ 1 file changed, 1 insertion(+)
+ create mode 100644 merge-file_B.txt
+
+░▒▓   …/git_playground   main ⇡  
+❯ git push
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 532 bytes | 532.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+   08e8b90..b8625d9  main -> main
+
+░▒▓   …/git_playground   main  
+❯ git checkout -b merge-feature
+Switched to a new branch 'merge-feature'
+
+░▒▓   …/git_playground   merge-feature  
+❯ echo 'Feature File - merge' > merge-feature_file_D.txt
+
+░▒▓   …/git_playground   merge-feature ?  
+❯ ls
+cherrypick_conflict_file.txt  merge-feature_file_D.txt  README.adoc
+feature1.txt                  merge-file_A.txt
+main.txt                      merge-file_B.txt
+
+░▒▓   …/git_playground   merge-feature ?  
+❯ git status
+On branch merge-feature
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	merge-feature_file_D.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+░▒▓   …/git_playground   merge-feature ?  
+❯ git add merge-feature_file_D.txt 
+
+░▒▓   …/git_playground   merge-feature +  
+❯ git commit -m "merge: Add merge-feature_file_D.txt to merge-feature"
+[merge-feature bbda1d7] merge: Add merge-feature_file_D.txt to merge-feature
+ 1 file changed, 1 insertion(+)
+ create mode 100644 merge-feature_file_D.txt
+
+░▒▓   …/git_playground   merge-feature  
+❯ echo 'Feature File E - merge' > merge-feature_file_E.txt
+
+░▒▓   …/git_playground   merge-feature ?  
+❯ git add merge-feature_file_E.txt 
+
+░▒▓   …/git_playground   merge-feature +  
+❯ git commit -m "merge: Add merge-feature_file_E.txt to merge-feature"
+[merge-feature 8696953] merge: Add merge-feature_file_E.txt to merge-feature
+ 1 file changed, 1 insertion(+)
+ create mode 100644 merge-feature_file_E.txt
+
+░▒▓   …/git_playground   merge-feature  
+❯ git push
+fatal: The current branch merge-feature has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin merge-feature
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+
+
+░▒▓   …/git_playground   merge-feature  
+❯ git push --set-upstream origin merge-feature
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 581 bytes | 581.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+remote: 
+remote: Create a pull request for 'merge-feature' on GitHub by visiting:
+remote:      https://github.com/kyberdrb/git_playground/pull/new/merge-feature
+remote: 
+To github.com:kyberdrb/git_playground.git
+ * [new branch]      merge-feature -> merge-feature
+branch 'merge-feature' set up to track 'origin/merge-feature'.
+
+░▒▓   …/git_playground   merge-feature  
+❯ git switch main 
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+░▒▓   …/git_playground   main  
+❯ echo 'File C - main - merge' > merge-file_C.txt
+
+░▒▓   …/git_playground   main ?  
+❯ git add merge-file_C.txt 
+
+░▒▓   …/git_playground   main +  
+❯ git commit -m "merge: Add merge-file_C.txt to main"
+[main 002df14] merge: Add merge-file_C.txt to main
+ 1 file changed, 1 insertion(+)
+ create mode 100644 merge-file_C.txt
+
+░▒▓   …/git_playground   main ⇡  
+❯ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 309 bytes | 309.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+   b8625d9..002df14  main -> main
+
+░▒▓   …/git_playground   main  
+❯ git log --oneline
+002df14 (HEAD -> main, origin/main) merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main  
+❯ git log --oneline merge-feature 
+8696953 (origin/merge-feature, merge-feature) merge: Add merge-feature_file_E.txt to merge-feature
+bbda1d7 merge: Add merge-feature_file_D.txt to merge-feature
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main  
+❯ 
+
+░▒▓   …/git_playground   main  
+❯ git switch merge-feature 
+Switched to branch 'merge-feature'
+Your branch is up to date with 'origin/merge-feature'.
+
+░▒▓   …/git_playground   merge-feature  
+❯ git status
+On branch merge-feature
+Your branch is up to date with 'origin/merge-feature'.
+
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   merge-feature  
+❯ git log --oneline 
+8696953 (HEAD -> merge-feature, origin/merge-feature) merge: Add merge-feature_file_E.txt to merge-feature
+bbda1d7 merge: Add merge-feature_file_D.txt to merge-feature
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   merge-feature  
+❯ git merge main
+Merge made by the 'ort' strategy.
+ merge-file_C.txt | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 merge-file_C.txt
+
+░▒▓   …/git_playground   merge-feature ⇡  
+❯ git log --oneline 
+a63c6e2 (HEAD -> merge-feature) Merge branch 'main' into 'merge-feature'
+002df14 (origin/main, main) merge: Add merge-file_C.txt to main
+8696953 (origin/merge-feature) merge: Add merge-feature_file_E.txt to merge-feature
+bbda1d7 merge: Add merge-feature_file_D.txt to merge-feature
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   merge-feature ⇡  
+❯ git log --oneline main 
+002df14 (origin/main, main) merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+----
+
+Final state
+
+[source]
+----
+A---B---C (master)
+     \   \
+      D---E---M (feature)
+----
+
+== `git rebase
+
+Initial state
+
+[source]
+----
+A---B---C (master)
+     \
+      D---E (feature)
+----
+
+[source, shell]
+----
+░▒▓   …/git_playground   main !⇡  
+❯  git push
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 575 bytes | 575.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+   002df14..7ce81e2  main -> main
+
+░▒▓   …/git_playground   main !  
+❯ git checkout -b rebase-feature
+Switched to a new branch 'rebase-feature'
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ echo "Feature File D - rebase-feature" > rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ ls
+cherrypick_conflict_file.txt  merge-file_B.txt      rebase-file_A-main.txt
+feature1.txt                  merge-file_C.txt      rebase-file_B-main.txt
+main.txt                      README.adoc
+merge-file_A.txt              rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ git status
+On branch rebase-feature
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.adoc
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	rebase-feature_D.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ git add rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !+  
+❯ git commit -m "rebase: Add rebase-feature_D.txt to rebase-feature branch"
+[rebase-feature 8b078a1] rebase: Add rebase-feature_D.txt to rebase-feature branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ echo "Feature File E - rebase-feature" > rebase-feature_E.txt
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ ls
+cherrypick_conflict_file.txt  merge-file_B.txt      rebase-feature_E.txt
+feature1.txt                  merge-file_C.txt      rebase-file_A-main.txt
+main.txt                      README.adoc           rebase-file_B-main.txt
+merge-file_A.txt              rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ cat rebase-feature_D
+cat: rebase-feature_D: No such file or directory
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ cat rebase-feature_D.txt 
+Feature File D - rebase-feature
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ cat rebase-feature_E.txt 
+Feature File E - rebase-feature
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ git add rebase-feature_E.txt
+
+░▒▓   …/git_playground   rebase-feature !+  
+❯ git commit -m "rebase: Add rebase-feature_E.txt to rebase-feature branch"
+[rebase-feature 9cf7ff3] rebase: Add rebase-feature_E.txt to rebase-feature branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 rebase-feature_E.txt
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git push
+fatal: The current branch rebase-feature has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin rebase-feature
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git push --set-upstream origin rebase-feature
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 607 bytes | 607.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+remote: 
+remote: Create a pull request for 'rebase-feature' on GitHub by visiting:
+remote:      https://github.com/kyberdrb/git_playground/pull/new/rebase-feature
+remote: 
+To github.com:kyberdrb/git_playground.git
+ * [new branch]      rebase-feature -> rebase-feature
+branch 'rebase-feature' set up to track 'origin/rebase-feature'.
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git switch main
+M	README.adoc
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+░▒▓   …/git_playground   main !  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.adoc
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+░▒▓   …/git_playground   main !  
+❯ echo "File C - main - rebase" > rebase-file_C-main.txt
+
+░▒▓   …/git_playground   main !?  
+❯ cat rebase-file_C-main.txt 
+File C - main - rebase
+
+░▒▓   …/git_playground   main !?  
+❯ git add rebase-file_C-main.txt
+
+░▒▓   …/git_playground   main !+  
+❯ git commit -m "rebase: Add rebase-file_C-main.txt to main branch"
+[main 1fe589d] rebase: Add rebase-file_C-main.txt to main branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 rebase-file_C-main.txt
+
+░▒▓   …/git_playground   main !⇡  
+❯ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 313 bytes | 313.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+   7ce81e2..1fe589d  main -> main
+
+░▒▓   …/git_playground   main !  
+❯ git log --oneline
+1fe589d (HEAD -> main, origin/main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main !  
+❯ git log --oneline rebase-feature
+9cf7ff3 (origin/rebase-feature, rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+8b078a1 rebase: Add rebase-feature_D.txt to rebase-feature branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main !  
+❯ 
+
+░▒▓   …/git_playground   main !  
+❯ git switch rebase-feature
+M	README.adoc
+Switched to branch 'rebase-feature'
+Your branch is up to date with 'origin/rebase-feature'.
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git checkout rebase-feature-backup # Back up branch 'rebase-feature'
+error: pathspec 'rebase-feature-backup' did not match any file(s) known to git
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git rebase main
+error: cannot rebase: You have unstaged changes.
+error: Please commit or stash them.
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git stash
+Saved working directory and index state WIP on rebase-feature: 9cf7ff3 rebase: Add rebase-feature_E.txt to rebase-feature branch
+
+░▒▓   …/git_playground   rebase-feature $  
+❯ git stash list
+stash@{0}: WIP on rebase-feature: 9cf7ff3 rebase: Add rebase-feature_E.txt to rebase-feature branch
+
+░▒▓   …/git_playground   rebase-feature $  
+❯ git rebase main
+Successfully rebased and updated refs/heads/rebase-feature.
+
+░▒▓   …/git_playground   rebase-feature $⇕  
+❯ git log --oneline main
+1fe589d (origin/main, main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   rebase-feature $⇕  
+❯ git log --oneline
+0af241e (HEAD -> rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+b41e35d rebase: Add rebase-feature_D.txt to rebase-feature branch
+1fe589d (origin/main, main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   rebase-feature $⇕  
+❯ git status
+On branch rebase-feature
+Your branch and 'origin/rebase-feature' have diverged,
+and have 3 and 2 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   rebase-feature $⇕  
+❯ git switch main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+░▒▓   …/git_playground   main $  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   main $  
+❯ git log --oneline origin/rebase-feature 
+9cf7ff3 (origin/rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+8b078a1 rebase: Add rebase-feature_D.txt to rebase-feature branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main $  
+❯ git log --oneline rebase-feature 
+0af241e (rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+b41e35d rebase: Add rebase-feature_D.txt to rebase-feature branch
+1fe589d (HEAD -> main, origin/main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main $  
+❯ git log --oneline
+1fe589d (HEAD -> main, origin/main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main $  
+❯ 
+
+░▒▓   …/git_playground   main $  
+❯ git push --force-with-lease origin rebase-feature
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 614 bytes | 614.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+ + 9cf7ff3...0af241e rebase-feature -> rebase-feature (forced update)
+
+░▒▓   …/git_playground   main !⇡  
+❯  git push
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 575 bytes | 575.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+   002df14..7ce81e2  main -> main
+
+░▒▓   …/git_playground   main !  
+❯ git checkout -b rebase-feature
+Switched to a new branch 'rebase-feature'
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ echo "Feature File D - rebase-feature" > rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ ls
+cherrypick_conflict_file.txt  merge-file_B.txt      rebase-file_A-main.txt
+feature1.txt                  merge-file_C.txt      rebase-file_B-main.txt
+main.txt                      README.adoc
+merge-file_A.txt              rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ git status
+On branch rebase-feature
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.adoc
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	rebase-feature_D.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ git add rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !+  
+❯ git commit -m "rebase: Add rebase-feature_D.txt to rebase-feature branch"
+[rebase-feature 8b078a1] rebase: Add rebase-feature_D.txt to rebase-feature branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ echo "Feature File E - rebase-feature" > rebase-feature_E.txt
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ ls
+cherrypick_conflict_file.txt  merge-file_B.txt      rebase-feature_E.txt
+feature1.txt                  merge-file_C.txt      rebase-file_A-main.txt
+main.txt                      README.adoc           rebase-file_B-main.txt
+merge-file_A.txt              rebase-feature_D.txt
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ cat rebase-feature_D
+cat: rebase-feature_D: No such file or directory
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ cat rebase-feature_D.txt 
+Feature File D - rebase-feature
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ cat rebase-feature_E.txt 
+Feature File E - rebase-feature
+
+░▒▓   …/git_playground   rebase-feature !?  
+❯ git add rebase-feature_E.txt
+
+░▒▓   …/git_playground   rebase-feature !+  
+❯ git commit -m "rebase: Add rebase-feature_E.txt to rebase-feature branch"
+[rebase-feature 9cf7ff3] rebase: Add rebase-feature_E.txt to rebase-feature branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 rebase-feature_E.txt
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git push
+fatal: The current branch rebase-feature has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin rebase-feature
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git push --set-upstream origin rebase-feature
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 607 bytes | 607.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+remote: 
+remote: Create a pull request for 'rebase-feature' on GitHub by visiting:
+remote:      https://github.com/kyberdrb/git_playground/pull/new/rebase-feature
+remote: 
+To github.com:kyberdrb/git_playground.git
+ * [new branch]      rebase-feature -> rebase-feature
+branch 'rebase-feature' set up to track 'origin/rebase-feature'.
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git switch main
+M	README.adoc
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+░▒▓   …/git_playground   main !  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.adoc
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+░▒▓   …/git_playground   main !  
+❯ echo "File C - main - rebase" > rebase-file_C-main.txt
+
+░▒▓   …/git_playground   main !?  
+❯ cat rebase-file_C-main.txt 
+File C - main - rebase
+
+░▒▓   …/git_playground   main !?  
+❯ git add rebase-file_C-main.txt
+
+░▒▓   …/git_playground   main !+  
+❯ git commit -m "rebase: Add rebase-file_C-main.txt to main branch"
+[main 1fe589d] rebase: Add rebase-file_C-main.txt to main branch
+ 1 file changed, 1 insertion(+)
+ create mode 100644 rebase-file_C-main.txt
+
+░▒▓   …/git_playground   main !⇡  
+❯ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 313 bytes | 313.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+   7ce81e2..1fe589d  main -> main
+
+░▒▓   …/git_playground   main !  
+❯ git log --oneline
+1fe589d (HEAD -> main, origin/main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main !  
+❯ git log --oneline rebase-feature
+9cf7ff3 (origin/rebase-feature, rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+8b078a1 rebase: Add rebase-feature_D.txt to rebase-feature branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main !  
+❯ 
+
+░▒▓   …/git_playground   main !  
+❯ git switch rebase-feature
+M	README.adoc
+Switched to branch 'rebase-feature'
+Your branch is up to date with 'origin/rebase-feature'.
+
+░▒▓   …/git_playground   rebase-feature !  
+❯ git stash
+Saved working directory and index state WIP on rebase-feature: 9cf7ff3 rebase: Add rebase-feature_E.txt to rebase-feature branch
+
+░▒▓   …/git_playground   rebase-feature $  
+❯ git stash list
+stash@{0}: WIP on rebase-feature: 9cf7ff3 rebase: Add rebase-feature_E.txt to rebase-feature branch
+
+░▒▓   …/git_playground   rebase-feature $  
+❯ git rebase main
+Successfully rebased and updated refs/heads/rebase-feature.
+
+░▒▓   …/git_playground   rebase-feature $⇕  
+❯ git log --oneline main
+1fe589d (origin/main, main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   rebase-feature $⇕  
+❯ git log --oneline
+0af241e (HEAD -> rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+b41e35d rebase: Add rebase-feature_D.txt to rebase-feature branch
+1fe589d (origin/main, main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   rebase-feature $⇕  
+❯ git status
+On branch rebase-feature
+Your branch and 'origin/rebase-feature' have diverged,
+and have 3 and 2 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+
+nothing to commit, working tree clean
+----
+
+Intermediary state - after rebase - updating `rebase-feature` branch by latest `main` branch
+
+[source]
+----
+local 'rebase-feature' branch - with updated commits by 'main' branch
+
+A---B (main)
+     \
+      C'---D' (rebase-feature)
+----
+
+[source]
+----
+remote 'rebase-feature' branch - with previously pushed original commits
+
+A---B (main)
+     \
+      C---D (origin/rebase-feature)
+----
+
+`git status` on the `rebase-feature` branch prompts us to `pull` , but this merging strategy is undesirable, as we want to overwrite updated local commits with outdated remote ones
+
+This is what git sees:
+
+[source]
+----
+A---B (main)
+     \
+      C'---D' (rebase-feature)
+           \
+            C---D (origin/rebase-feature)
+----
+
+[source, shell]
+----
+░▒▓   …/git_playground   rebase-feature $⇕  
+❯ git switch main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+
+░▒▓   …/git_playground   main $  
+❯ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+
+░▒▓   …/git_playground   main $  
+❯ git log --oneline origin/rebase-feature 
+9cf7ff3 (origin/rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+8b078a1 rebase: Add rebase-feature_D.txt to rebase-feature branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main $  
+❯ git log --oneline rebase-feature 
+0af241e (rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+b41e35d rebase: Add rebase-feature_D.txt to rebase-feature branch
+1fe589d (HEAD -> main, origin/main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main $  
+❯ git log --oneline
+1fe589d (HEAD -> main, origin/main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main $  
+❯ 
+
+░▒▓   …/git_playground   main $  
+❯ git push --force-with-lease origin rebase-feature
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 614 bytes | 614.00 KiB/s, done.
+Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To github.com:kyberdrb/git_playground.git
+ + 9cf7ff3...0af241e rebase-feature -> rebase-feature (forced update)
+
+❯ git log --oneline
+1fe589d (HEAD -> main, origin/main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main !+  
+❯ git log --oneline rebase-feature
+0af241e (origin/rebase-feature, rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+b41e35d rebase: Add rebase-feature_D.txt to rebase-feature branch
+1fe589d (HEAD -> main, origin/main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+
+░▒▓   …/git_playground   main !+  
+❯ git log --oneline origin/rebase-feature
+0af241e (origin/rebase-feature, rebase-feature) rebase: Add rebase-feature_E.txt to rebase-feature branch
+b41e35d rebase: Add rebase-feature_D.txt to rebase-feature branch
+1fe589d (HEAD -> main, origin/main) rebase: Add rebase-file_C-main.txt to main branch
+7ce81e2 rebase: Add rebase-file_B-main.txt to main branch
+cf46c9f rebase: Add rebase-file_A-main.txt to main
+002df14 merge: Add merge-file_C.txt to main
+b8625d9 merge: Add merge-file_B.txt to main
+a9fa852 merge: Add merge-fileA.txt to main
+08e8b90 cherrypick: add commands to replicate cherry-picking without and with conflict resolution
+7924f52 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 with changes from main and cherrypick-conflict-feature branch to main branch
+c1aeef9 cherrypick_conflict: commit cherrypick_conflict_file.txt modified on line 2 on main branch
+35b3290 cherrypick_conflict: commit cherrypick_conflict_file.txt on main branch
+42a5ce7 cherrypick-practice: commit feature1.txt to cherrypick-practice-feature branch
+d278599 cherrypick-practice: commit main.txt to main branch
+3ce77df Add README.md
+----
+
+Final state - updated local branch `rebase-feature` was pushed to the remote repository
+
+Local and remote version of branch `rebase-feature` are now in sync after force push
+
+[source]
+----
+A---B---C (master)
+         \
+          D'---E' (feature)
+----
